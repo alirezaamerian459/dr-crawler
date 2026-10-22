@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fa-IR" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="drc-token" content="__DRC_TOKEN__">
+  <meta name="theme-color" content="#f2f4ef">
+  <title>DR Crawler | کتابخانه بازی</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <main class="workspace">
+      <header class="topbar">
+        <div class="topbar-copy">
+          <p class="eyebrow" id="breadcrumb">نمای کلی کتابخانه</p>
+          <h1 id="page-title">کتابخانه بازی شما</h1>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box" aria-label="جست‌وجوی بازی و شناسه">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="global-search" type="search" placeholder="نام فارسی، عنوان اصلی یا شناسه…" autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+          <button class="button button-primary" id="add-game-open">افزودن بازی</button>
+          <button class="button button-quiet" id="import-open">ورود فایل</button>
+          <input id="import-file" type="file" accept=".csv,.json,text/csv,application/json" hidden>
+        </div>
+      </header>
+
+      <section class="page active" id="page-overview" data-page="overview">
+        <div class="welcome-band">
+          <div class="welcome-copy">
+            <div class="brand-mark large" aria-hidden="true">DR</div>
+            <div>
+              <p class="eyebrow">فهرست محلی · فارسی‌محور</p>
+              <h2>بازی‌ها، فایل‌ها و شواهد<br>در یک نمای روشن</h2>
+              <p class="welcome-note">اطلاعات مجموعه فقط روی همین رایانه ذخیره می‌شود. جست‌وجوی منبع و اسکن پوشه‌ها با انتخاب شما انجام می‌شود.</p>
+              <div class="welcome-actions">
+                <button class="button button-primary" data-go="games">مرور مجموعه</button>
+                <button class="button button-outline" data-go="roots">انتخاب پوشه برای اسکن</button>
+              </div>
+            </div>
+          </div>
+          <div class="shelf-art" aria-hidden="true">
+            <div class="case case-one"><i></i><b>PS5</b></div>
+            <div class="case case-two"><i></i><b>PS4</b></div>
+            <div class="case case-three"><i></i><b>PS5</b></div>
+            <div class="shelf-line"></div>
+            <span class="disc-mark"></span>
+          </div>
+        </div>
+
+        <div class="section-heading row-heading">
+          <div>
+            <h2>وضعیت امروز</h2>
+            <p>فقط داده‌های ثبت‌شده در این کتابخانه</p>
+          </div>
+          <span class="local-indicator"><i></i> محلی و آفلاین‌دوست</span>
+        </div>
+        <div class="stats-strip" id="stats-strip"></div>
+
+        <div class="overview-columns">
+          <section class="panel collection-panel">
+            <div class="panel-heading">
+              <div><h2>آخرین بازی‌ها</h2><p>هر عنوان به صفحهٔ شواهد خودش می‌رسد.</p></div>
+              <button class="text-button" data-go="games">همهٔ بازی‌ها</button>
+            </div>
+            <div id="overview-games"></div>
+          </section>
+          <section class="panel activity-panel">
+            <div class="panel-heading">
+              <div><h2>ثبت رویدادها</h2><p>تغییرات و تصمیم‌های اخیر</p></div>
+            </div>
+            <div id="recent-activity"></div>
+          </section>
+        </div>
+        <p class="privacy-note"><span aria-hidden="true">◉</span> مسیرهای دیسک و فهرست بازی‌ها از این رایانه خارج نمی‌شوند.</p>
+      </section>
+
+      <section class="page" id="page-games" data-page="games">
+        <div class="page-intro">
+          <div><p class="eyebrow">مجموعهٔ شخصی</p><h2>بازی‌های ثبت‌شده</h2><p>عنوان فارسی، عنوان اصلی، شناسه و پلتفرم همگی در جست‌وجو هستند.</p></div>
+          <div class="intro-actions"><button class="button button-primary" id="add-game-open-2">افزودن بازی</button><button class="button button-outline" id="import-open-2">پیش‌نمایش فایل CSV/JSON</button></div>
+        </div>
+        <div class="filter-row">
+          <div class="segmented" id="platform-filter" role="group" aria-label="فیلتر پلتفرم">
+            <button class="selected" data-platform="all">همه</button><button data-platform="PS4">PS4</button><button data-platform="PS5">PS5</button>
+          </div>
+          <span id="game-count-label" class="quiet-label"></span>
+        </div>
+        <div id="game-list" class="game-list"></div>
+      </section>
+
+      <section class="page" id="page-sources" data-page="sources">
+        <div class="page-intro">
+          <div><p class="eyebrow">رجیستری منبع</p><h2>منابع و خط‌مشی دسترسی</h2><p>اعتماد منبع، زبان فهرست و شواهد سازگاری جداگانه نمایش داده می‌شوند.</p></div>
+          <button class="button button-primary" id="source-add-open">ثبت منبع</button>
+        </div>
+        <div class="policy-banner"><span class="policy-symbol">!</span><p>هیچ منبعی از پیش برای خزیدن فعال نیست. دسترسی خودکار یا دریافت فقط پس از بررسی و ثبت خط‌مشی همان منبع ممکن است.</p></div>
+        <div id="source-list" class="source-list"></div>
+      </section>
+
+      <section class="page" id="page-roots" data-page="roots">
+        <div class="page-intro">
+          <div><p class="eyebrow">فهرست محلی</p><h2>پوشه‌ها و دیسک‌های انتخاب‌شده</h2><p>اسکن فقط پس از افزودن صریح یک پوشه آغاز می‌شود و فایل‌ها را تغییر نمی‌دهد.</p></div>
+        </div>
+        <section class="panel root-picker">
+          <div class="root-picker-copy"><span class="drive-glyph" aria-hidden="true">▱</span><div><h3>افزودن پوشهٔ کتابخانه</h3><p>پیشنهاد اولیه: <bdi class="ltr">D:\PlayStation-Library</bdi> — این مسیر به‌صورت خودکار ایجاد یا اسکن نمی‌شود.</p></div></div>
+          <form id="root-form" class="inline-form">
+            <label class="field-label" for="root-path">مسیر پوشه</label>
+            <div class="path-entry"><input id="root-path" name="path" type="text" spellcheck="false" placeholder="D:\PlayStation-Library" required><button class="button button-outline" type="button" data-action="pick-folder" data-target="root">انتخاب…</button><button class="button button-primary" type="submit">افزودن پوشه</button></div>
+          </form>
+        </section>
+        <div class="section-heading row-heading"><div><h2>ریشه‌های ثبت‌شده</h2><p>دیسک جداشده همچنان در فهرست می‌ماند.</p></div><button class="text-button" id="refresh-roots">به‌روزرسانی وضعیت</button></div>
+        <div id="root-list" class="root-list"></div>
+      </section>
+
+      <section class="page" id="page-queue" data-page="queue">
+        <div class="page-intro">
+          <div><p class="eyebrow">تأیید موردی</p><h2>صف دریافت</h2><p>هر درخواست به یک مشاهدهٔ منبع و یک مسیر دقیق محدود است. دریافت خودکار وجود ندارد.</p></div>
+        </div>
+        <div class="policy-banner policy-banner-amber"><span class="policy-symbol">↳</span><p>فایل‌ها فقط پس از تأیید شما دریافت می‌شوند و به‌صورت دادهٔ غیرفعال باقی می‌مانند؛ نصب، بازکردن و استخراج انجام نمی‌شود.</p></div>
+        <div id="job-list" class="job-list"></div>
+      </section>
+
+      <section class="page" id="page-settings" data-page="settings">
+        <div class="page-intro"><div><p class="eyebrow">تنظیمات محلی</p><h2>زبان و تازگی پوشش</h2><p>زبان رابط فارسی می‌ماند؛ زبان‌های دیگر فقط گزینهٔ جایگزین برای کشف هستند.</p></div></div>
+        <form id="settings-form" class="panel settings-form">
+          <div class="settings-row"><div><label for="ttl-days">بازهٔ تازگی پوشش</label><p>نتیجهٔ قدیمی‌تر به‌عنوان «کهنه» نمایش داده می‌شود.</p></div><div class="setting-input"><input id="ttl-days" type="number" min="1" max="365" value="30"><span>روز</span></div></div>
+          <div class="settings-row"><div><label for="fallback-languages">زبان‌های جایگزین</label><p>کدهای زبان با ویرگول جدا شوند؛ مانند en, ja.</p></div><input id="fallback-languages" type="text" value="en" dir="ltr"></div>
+          <div class="settings-row"><div><label>زبان پیش‌فرض</label><p>رتبه‌بندی فارسی از سطح اعتماد منبع جدا است.</p></div><strong class="value-pill" dir="ltr">fa-IR</strong></div>
+          <div class="settings-row"><div><label>پیشنهاد پوشه</label><p>برای انتخاب و اسکن باید آن را صریحاً ثبت کنید.</p></div><code class="ltr">D:\PlayStation-Library</code></div>
+          <div class="settings-actions"><button class="button button-primary" type="submit">ذخیرهٔ تنظیمات</button></div>
+        </form>
+        <div class="data-location panel" id="data-location"></div>
+      </section>
+
+      <section class="page" id="page-detail" data-page="detail">
+        <div id="game-detail"></div>
+      </section>
+
+      <footer class="workspace-footer"><span>DR Crawler <bdi dir="ltr">v0.1.0</bdi></span><span>پایگاه داده و مسیرها روی دستگاه شما می‌مانند</span></footer>
+    </main>
+
+    <aside class="rail">
+      <div class="rail-brand">
+        <div class="brand-mark">DR</div>
+        <div><strong>DR Crawler</strong><span>کتابخانهٔ بازی</span></div>
+      </div>
+      <div class="rail-rule"></div>
+      <p class="rail-caption">فضای شما</p>
+      <nav class="main-nav" aria-label="بخش‌های برنامه">
+        <button class="nav-item active" data-page="overview"><span class="nav-icon">◫</span><span>نمای کلی</span></button>
+        <button class="nav-item" data-page="games"><span class="nav-icon">▤</span><span>بازی‌ها</span><span class="nav-count" id="nav-game-count">۰</span></button>
+        <button class="nav-item" data-page="sources"><span class="nav-icon">⌁</span><span>منابع</span><span class="nav-count" id="nav-source-count">۰</span></button>
+        <button class="nav-item" data-page="roots"><span class="nav-icon">▱</span><span>پوشه‌های محلی</span></button>
+        <button class="nav-item" data-page="queue"><span class="nav-icon">⇩</span><span>صف دریافت</span><span class="nav-count amber-count" id="nav-queue-count">۰</span></button>
+      </nav>
+      <div class="rail-spacer"></div>
+      <div class="rail-privacy">
+        <span class="lock-icon" aria-hidden="true">⌑</span>
+        <div><strong>فقط روی این دستگاه</strong><p>بدون همگام‌سازی ابری</p></div>
+      </div>
+      <button class="nav-item settings-link" data-page="settings"><span class="nav-icon">⚙</span><span>تنظیمات</span></button>
+      <div class="rail-version"><span class="status-dot"></span> پایگاه داده آماده است</div>
+    </aside>
+  </div>
+
+  <dialog id="modal" class="modal-shell" aria-labelledby="modal-title">
+    <form method="dialog" class="modal-dismiss"><button aria-label="بستن پنجره">×</button></form>
+    <div id="modal-content"></div>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>

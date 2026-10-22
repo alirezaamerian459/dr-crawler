@@ -11,7 +11,22 @@
 | 5. Compatibility and queue | Compatibility evidence and exact approval-bound transfer | Approval snapshot and authorization rules accepted |
 | 6. Coverage and synchronization | Matrix, HDD sync/reconnect behavior, freshness and completion rules | No false-complete/no false-deletion behavior accepted |
 
-These phases define planning order only. They do not promise dates or implementation. The release should be broken into smaller implementation milestones after the owner accepts the open decisions below.
+These phases record the original planning order. They do not promise dates, and their exit criteria have not all been re-certified by the first implementation. The implemented scope and remaining gaps are recorded below.
+
+## Implementation record — first local release
+
+- **Technology:** Python 3.10+ standard library, a browser UI served on loopback, and SQLite. This keeps setup small on Windows and leaves the scanner, source model, and persistence code modular. A browser interface was chosen over a packaged desktop shell because the repository had no stack and no packaging toolchain.
+- **Local storage:** SQLite is versioned with `PRAGMA user_version`; migration 1 creates the initial catalog, source, scan, assessment, approval, and audit tables, and migration 2 adds/backfills stable candidate identity for cross-source observation merging. The database stays in the user's local application-data folder by default. No collection data or local paths are uploaded.
+- **Localization:** The interface is `fa-IR` and RTL. Recorded Persian titles lead display and source-language ranking; original titles and normalized identifiers remain searchable. Source trust and candidate compatibility are separate evidence.
+- **Sources:** No source names or access-policy reviews were provided. The first release starts with an empty registry and supports manual source, candidate, and check records. Repeated same-source observations are idempotent; matching candidate identities from different sources share one candidate with separate observation evidence. It does not fetch or crawl listings. Downloads are available only after a user marks that source's policy as reviewed/allowed, confirms authorization, approves the exact snapshot, and starts the transfer.
+- **Local roots:** `D:\PlayStation-Library` is a suggestion only. Roots must be added explicitly. The scanner reads filesystem metadata and filename patterns, skips symlinks/reparse points, does no content hashing, and reconciles missing files only after a complete scan of the selected root. A disconnected root keeps its previous inventory.
+- **Compatibility and approval:** Compatibility uses conservative identifier/platform/region rules and appends evidence. A user-confirmed local-file link is required for `already_present`. Approval is per item and exact output path; there is no batch approval. Changed item identity, URL, version, size, hash, source policy, compatibility state, or destination expires approval.
+- **Freshness and hashing:** The configurable coverage TTL defaults to 30 days. Scan hashing is off and not implemented; a download digest is checked only when a source has declared SHA-1/SHA-256 evidence. Missing integrity evidence is shown explicitly.
+- **Ownership and destinations:** Imports and manual entries preserve a user assertion and optional note, not account data. Download destinations must be existing folders selected or entered by the user; no default staging folder is created.
+
+## Remaining decisions and planned work
+
+The open decisions below remain open. The current defaults make the local collection, import review, metadata scan, manual coverage, compatibility review, and approval queue usable without pretending that source onboarding or policy review has been completed. Future work can add reviewed, policy-compliant adapters; richer documented sidecar parsing; packaging/signing; and backup/retention controls after those decisions are made.
 
 ## Current planning decisions from the brief
 
@@ -22,9 +37,9 @@ These phases define planning order only. They do not promise dates or implementa
 - Discovery is per game, with a source registry and visible coverage for each game/source/category.
 - Local disk scanning is metadata-only and read-only.
 - Downloads require approval for each exact candidate and are limited to content the user is authorized to obtain.
-- This repository is planning only; no implementation is included.
+- The phase documents still describe the target product; see the implementation record for the first release's actual scope.
 
-## Open decisions before implementation
+## Open decisions for later milestones
 
 1. **Desktop platform and technology:** Windows-only first (the default root suggests Windows) or cross-platform from the first release?
 2. **Source onboarding:** Which specific official and maintained community sources may be included, and who reviews source terms and trust status?
@@ -37,6 +52,6 @@ These phases define planning order only. They do not promise dates or implementa
 9. **Localization:** Which locales are required at launch beyond Persian and English? Which Persian regional conventions should UI labels use?
 10. **Retention and backup:** How long should source/scan history, failed download details, and audit events be retained?
 
-## Completion definition
+## Planning completion definition (original)
 
 Planning is complete when the owner accepts phase gates, selects initial sources, resolves the open decisions needed to build a first release, and approves a technical design and data migration plan. Code, live crawlers, and download adapters belong to a later, separately authorized implementation phase.
