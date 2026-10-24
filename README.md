@@ -2,6 +2,8 @@
 
 DR Crawler is a local-first PS4/PS5 collection manager with a Persian (`fa-IR`) right-to-left interface. It records game identities, source candidates, compatibility evidence, selected-folder metadata, source coverage, and exact download approvals.
 
+The responsive interface groups the main workflows into a compact navigation rail and guides a new library through adding games, choosing folders, and reviewing local files.
+
 The first release runs as a small Python application and opens its interface in the desktop browser. The local HTTP server listens on `127.0.0.1` only. The catalog and paths remain on this computer; the app does not sync or upload them.
 
 ## Run on Windows

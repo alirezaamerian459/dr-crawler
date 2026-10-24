@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="drc-token" content="__DRC_TOKEN__">
-  <meta name="theme-color" content="#f2f4ef">
+  <meta name="theme-color" content="#f2f4f8">
   <title>DR Crawler | کتابخانه بازی</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -13,69 +13,60 @@
     <main class="workspace">
       <header class="topbar">
         <div class="topbar-copy">
-          <p class="eyebrow" id="breadcrumb">نمای کلی کتابخانه</p>
-          <h1 id="page-title">کتابخانه بازی شما</h1>
+          <p class="eyebrow" id="breadcrumb">کتابخانهٔ بازی</p>
+          <h1 id="page-title">مجموعهٔ شما</h1>
         </div>
         <div class="topbar-actions">
           <label class="search-box" aria-label="جست‌وجوی بازی و شناسه">
             <span class="search-icon" aria-hidden="true">⌕</span>
-            <input id="global-search" type="search" placeholder="نام فارسی، عنوان اصلی یا شناسه…" autocomplete="off">
+            <input id="global-search" type="search" placeholder="جست‌وجوی بازی یا شناسه…" autocomplete="off">
             <kbd>/</kbd>
           </label>
           <button class="button button-primary" id="add-game-open">افزودن بازی</button>
-          <button class="button button-quiet" id="import-open">ورود فایل</button>
+          <button class="button button-quiet" id="import-open">ورود از فایل</button>
           <input id="import-file" type="file" accept=".csv,.json,text/csv,application/json" hidden>
         </div>
       </header>
 
       <section class="page active" id="page-overview" data-page="overview">
-        <div class="welcome-band">
-          <div class="welcome-copy">
-            <div class="brand-mark large" aria-hidden="true">DR</div>
-            <div>
-              <p class="eyebrow">فهرست محلی · فارسی‌محور</p>
-              <h2>بازی‌ها، فایل‌ها و شواهد<br>در یک نمای روشن</h2>
-              <p class="welcome-note">اطلاعات مجموعه فقط روی همین رایانه ذخیره می‌شود. جست‌وجوی منبع و اسکن پوشه‌ها با انتخاب شما انجام می‌شود.</p>
-              <div class="welcome-actions">
-                <button class="button button-primary" data-go="games">مرور مجموعه</button>
-                <button class="button button-outline" data-go="roots">انتخاب پوشه برای اسکن</button>
+        <section class="welcome-band" id="welcome-band">
+          <div class="welcome-main">
+            <div class="welcome-kicker"><span aria-hidden="true">◉</span> شروع سریع · PS4 و PS5</div>
+            <h2>اول بازی‌ها را<br>به کتابخانه اضافه کنید</h2>
+            <p class="welcome-note">بعد پوشه‌های دلخواهتان را انتخاب کنید تا نام و شناسهٔ فایل‌های محلی با مجموعه تطبیق داده شود.</p>
+            <div class="welcome-actions">
+              <button class="button button-primary" data-action="add-game">افزودن بازی</button>
+              <button class="button button-outline" data-go="roots">انتخاب پوشه و اسکن</button>
+            </div>
+          </div>
+          <ol class="welcome-steps" aria-label="مراحل شروع">
+            <li><span>۱</span><div><strong>ثبت بازی‌ها</strong><small>دستی یا از CSV/JSON</small></div></li>
+            <li><span>۲</span><div><strong>انتخاب پوشه</strong><small>فقط مسیرهایی که خودتان برمی‌گزینید</small></div></li>
+            <li><span>۳</span><div><strong>بازبینی فایل‌ها</strong><small>تطبیق شناسه و شواهد سازگاری</small></div></li>
+          </ol>
+        </section>
+
+        <div id="overview-content" hidden>
+          <div class="section-heading row-heading">
+            <div><h2>وضعیت کتابخانه</h2><p>فقط اطلاعات ثبت‌شده روی همین دستگاه</p></div>
+            <span class="local-indicator"><i></i> داده‌ها محلی می‌مانند</span>
+          </div>
+          <div class="stats-strip" id="stats-strip"></div>
+          <div class="overview-columns">
+            <section class="panel collection-panel">
+              <div class="panel-heading">
+                <div><h2>بازی‌های اخیر</h2><p>برای دیدن فایل‌ها و شواهد، یک عنوان را باز کنید.</p></div>
+                <button class="text-button" data-go="games">دیدن همه</button>
               </div>
-            </div>
+              <div id="overview-games"></div>
+            </section>
+            <section class="panel activity-panel">
+              <div class="panel-heading"><div><h2>فعالیت اخیر</h2><p>افزودن، اسکن و تصمیم‌ها</p></div></div>
+              <div id="recent-activity"></div>
+            </section>
           </div>
-          <div class="shelf-art" aria-hidden="true">
-            <div class="case case-one"><i></i><b>PS5</b></div>
-            <div class="case case-two"><i></i><b>PS4</b></div>
-            <div class="case case-three"><i></i><b>PS5</b></div>
-            <div class="shelf-line"></div>
-            <span class="disc-mark"></span>
-          </div>
+          <p class="privacy-note"><span aria-hidden="true">◉</span> فهرست بازی‌ها و مسیرها از این رایانه خارج نمی‌شوند.</p>
         </div>
-
-        <div class="section-heading row-heading">
-          <div>
-            <h2>وضعیت امروز</h2>
-            <p>فقط داده‌های ثبت‌شده در این کتابخانه</p>
-          </div>
-          <span class="local-indicator"><i></i> محلی و آفلاین‌دوست</span>
-        </div>
-        <div class="stats-strip" id="stats-strip"></div>
-
-        <div class="overview-columns">
-          <section class="panel collection-panel">
-            <div class="panel-heading">
-              <div><h2>آخرین بازی‌ها</h2><p>هر عنوان به صفحهٔ شواهد خودش می‌رسد.</p></div>
-              <button class="text-button" data-go="games">همهٔ بازی‌ها</button>
-            </div>
-            <div id="overview-games"></div>
-          </section>
-          <section class="panel activity-panel">
-            <div class="panel-heading">
-              <div><h2>ثبت رویدادها</h2><p>تغییرات و تصمیم‌های اخیر</p></div>
-            </div>
-            <div id="recent-activity"></div>
-          </section>
-        </div>
-        <p class="privacy-note"><span aria-hidden="true">◉</span> مسیرهای دیسک و فهرست بازی‌ها از این رایانه خارج نمی‌شوند.</p>
       </section>
 
       <section class="page" id="page-games" data-page="games">
@@ -140,7 +131,7 @@
         <div id="game-detail"></div>
       </section>
 
-      <footer class="workspace-footer"><span>DR Crawler <bdi dir="ltr">v0.1.1</bdi></span><span>پایگاه داده و مسیرها روی دستگاه شما می‌مانند</span></footer>
+      <footer class="workspace-footer"><span>DR Crawler <bdi dir="ltr">v0.1.2</bdi></span><span>پایگاه داده و مسیرها روی دستگاه شما می‌مانند</span></footer>
     </main>
 
     <aside class="rail">
@@ -149,13 +140,13 @@
         <div><strong>DR Crawler</strong><span>کتابخانهٔ بازی</span></div>
       </div>
       <div class="rail-rule"></div>
-      <p class="rail-caption">فضای شما</p>
+      <p class="rail-caption">کتابخانه</p>
       <nav class="main-nav" aria-label="بخش‌های برنامه">
-        <button class="nav-item active" data-page="overview"><span class="nav-icon">◫</span><span>نمای کلی</span></button>
+        <button class="nav-item active" data-page="overview"><span class="nav-icon">⌂</span><span>خانه</span></button>
         <button class="nav-item" data-page="games"><span class="nav-icon">▤</span><span>بازی‌ها</span><span class="nav-count" id="nav-game-count">۰</span></button>
         <button class="nav-item" data-page="sources"><span class="nav-icon">⌁</span><span>منابع</span><span class="nav-count" id="nav-source-count">۰</span></button>
-        <button class="nav-item" data-page="roots"><span class="nav-icon">▱</span><span>پوشه‌های محلی</span></button>
-        <button class="nav-item" data-page="queue"><span class="nav-icon">⇩</span><span>صف دریافت</span><span class="nav-count amber-count" id="nav-queue-count">۰</span></button>
+        <button class="nav-item" data-page="roots"><span class="nav-icon">▱</span><span>اسکن فایل‌ها</span></button>
+        <button class="nav-item" data-page="queue"><span class="nav-icon">⇩</span><span>دریافت‌ها</span><span class="nav-count amber-count" id="nav-queue-count">۰</span></button>
       </nav>
       <div class="rail-spacer"></div>
       <div class="rail-privacy">

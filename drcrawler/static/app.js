@@ -31,9 +31,9 @@
     source_reported: 'گزارش منبع', inferred: 'تشخیص احتمالی', user_confirmed: 'تأیید کاربر',
   };
   const pageTitles = {
-    overview: ['نمای کلی کتابخانه', 'کتابخانه بازی شما'], games: ['مجموعهٔ شخصی', 'بازی‌ها'],
-    sources: ['رجیستری منبع', 'منابع'], roots: ['فهرست محلی', 'پوشه‌های محلی'],
-    queue: ['تأیید موردی', 'صف دریافت'], settings: ['تنظیمات محلی', 'تنظیمات'], detail: ['جزئیات بازی', 'جزئیات بازی'],
+    overview: ['کتابخانهٔ بازی', 'مجموعهٔ شما'], games: ['کتابخانه', 'بازی‌ها'],
+    sources: ['پوشش و منابع', 'منابع'], roots: ['کتابخانهٔ محلی', 'اسکن فایل‌ها'],
+    queue: ['درخواست‌های شما', 'دریافت‌ها'], settings: ['تنظیمات محلی', 'تنظیمات'], detail: ['جزئیات بازی', 'جزئیات بازی'],
   };
 
   function esc(value) {
@@ -133,6 +133,10 @@
   function renderOverview() {
     if (!state.data) return;
     const c = state.data.counts;
+    const hasGames = Number(c.games || 0) > 0;
+    $('#welcome-band').hidden = hasGames;
+    $('#overview-content').hidden = !hasGames;
+    if (!hasGames) return;
     $('#stats-strip').innerHTML = [
       [c.games,'بازی ثبت‌شده'], [c.sources,'منبع در رجیستری'], [c.local_files,'فایل در پوشه‌های ثبت‌شده'], [c.pending_approvals,'در انتظار تصمیم شما'],
     ].map(([num,text]) => `<div class="stat-cell"><strong>${faNum(num)}</strong><span>${esc(text)}</span></div>`).join('');
