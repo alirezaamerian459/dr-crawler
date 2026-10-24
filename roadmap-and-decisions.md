@@ -23,6 +23,7 @@ These phases record the original planning order. They do not promise dates, and 
 - **Compatibility and approval:** Compatibility uses conservative identifier/platform/region rules and appends evidence. A user-confirmed local-file link is required for `already_present`. Approval is per item and exact output path; there is no batch approval. Changed item identity, URL, version, size, hash, source policy, compatibility state, or destination expires approval.
 - **Freshness and hashing:** The configurable coverage TTL defaults to 30 days. Scan hashing is off and not implemented; a download digest is checked only when a source has declared SHA-1/SHA-256 evidence. Missing integrity evidence is shown explicitly.
 - **Ownership and destinations:** Imports and manual entries preserve a user assertion and optional note, not account data. Download destinations must be existing folders selected or entered by the user; no default staging folder is created.
+- **Package and exFAT indexing (2026-10-24):** The scanner recognizes `.pkg`, `.fpkg`, and numbered package-part names, and extracts title-ID evidence from both file names and relative folder paths. It treats Windows-visible files on an exFAT root like files on other selected roots. It does not inspect/reassemble package contents or interpret PlayStation-formatted storage that Windows does not expose as ordinary browsable files.
 
 ## Remaining decisions and planned work
 

@@ -135,7 +135,7 @@ class ScanManager:
                                 item_cap = True
                                 break
                             relative = entry_path.relative_to(root).as_posix()
-                            parsed = parse_filename(entry.name)
+                            parsed = parse_filename(entry.name, relative)
                             self._record_file(conn, root_id, run_id, entry_path, relative, info, parsed)
                             seen += 1
                             if seen % 200 == 0:
@@ -211,12 +211,16 @@ def is_within(path: Path, root: Path) -> bool:
         return False
 
 
-def parse_filename(name: str) -> dict[str, Any]:
+def parse_filename(name: str, relative_path: str = "") -> dict[str, Any]:
     ext = Path(name).suffix.casefold()
-    title_id_match = TITLE_ID_RE.search(name)
-    version_match = VERSION_RE.search(name)
-    guess = {
-        ".pkg": "package_candidate",
+    identity_text = f"{relative_path}/{name}"
+    title_id_match = TITLE_ID_RE.search(identity_text)
+    version_match = VERSION_RE.search(identity_text)
+    split_package = re.search(r"\.(?:f?pkg)\.\d+$", name, re.IGNORECASE)
+    package_file = re.search(r"\.(?:f?pkg)$", name, re.IGNORECASE)
+    guess = (
+        "split_package_part_candidate" if split_package else "package_candidate" if package_file else None
+    ) or {
         ".srt": "subtitle_candidate",
         ".ass": "subtitle_candidate",
         ".ssa": "subtitle_candidate",
